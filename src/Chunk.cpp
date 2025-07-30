@@ -65,5 +65,5 @@ glm::vec3 Chunk::globalCoords(glm::vec3 coords)
 }
 void Chunk::updateMesh()
 {
-    // chunkMesh = Mesh(meshVertices, meshIndices);
+    chunkMesh = Mesh(meshVertices, meshIndices);
 }

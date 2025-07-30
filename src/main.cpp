@@ -1,6 +1,6 @@
 #include <iostream>
 #include <Mesh.h>
-#include <Chunk.h>
+#include <ChunkMesher.h>
 using namespace std;
 
 string res(string p)
@@ -46,16 +46,8 @@ int main()
     // Create the camera 2 units back
     Camera camera(mode->width, mode->height, glm::vec3(0.0f, 0.0f, 8.0f));
 
-    std::vector<Vertex> vertices = {
-        Vertex{glm::vec3(0.0f,0.0f,-1.0f), glm::vec3(1.0f), glm::vec2(0,0), 1},
-        Vertex{glm::vec3(1.0f,0.0f,-1.0f), glm::vec3(1.0f), glm::vec2(0,0), 1},
-        Vertex{glm::vec3(0.0f,1.0f,-1.0f), glm::vec3(1.0f), glm::vec2(0,0), 1}
-    };
-    std::vector<GLuint> indices = {
-        0, 1, 2
-    };
-
-    Mesh triangle(vertices, indices);
+    ChunkMesher mesher;
+    std::cout << mesher.loader.loadedChunks[0].meshVertices.size() << '\n';
 
     // Set buffer swap interval to 1. This effectively enables VSync
     glfwSwapInterval(1);
@@ -71,7 +63,10 @@ int main()
         glClearColor(0.04f, 0.0425f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        
+        for (Chunk chunk : mesher.loader.loadedChunks)
+        {
+            chunk.chunkMesh.Draw(shader, camera);
+        }
 
         glfwSwapBuffers(window);
         // Take care of GLFW events

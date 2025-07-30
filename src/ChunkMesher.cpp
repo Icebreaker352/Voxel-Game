@@ -17,9 +17,7 @@ ChunkMesher::ChunkMesher() {
             loader.getChunkAtGlobalCoords(glm::vec3(x, y, z - 16)));
         generateMesh(chunkbounds, loader.loadedChunks[i].meshVertices, loader.loadedChunks[i].meshIndices);
         loader.loadedChunks[i].updateMesh();
-        std::cout << i << '\n';
     }
-    std::cout << typeid(loader.loadedChunks).name() << '\n';
 }
 void ChunkMesher::updateMeshForChunkAt(glm::vec3 chunkCoords)
 {
