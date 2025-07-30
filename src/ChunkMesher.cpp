@@ -3,43 +3,43 @@
 ChunkMesher::ChunkMesher() {
     loader.genChunksInRenderDist();
 
-    // for (int i = 0; i < loader.loadedChunks.size(); i++)
-    // {
-        // int x = loader.loadedChunks[i].chunkX * 16.0f;
-        // int y = loader.loadedChunks[i].chunkY * 16.0f;
-        // int z = loader.loadedChunks[i].chunkZ * 16.0f;
-        // ChunkBoundary chunkbounds(loader.loadedChunks[i],
-        //     loader.getChunkAtGlobalCoords(glm::vec3(x, y + 16, z)),
-        //     loader.getChunkAtGlobalCoords(glm::vec3(x, y - 16, z)),
-        //     loader.getChunkAtGlobalCoords(glm::vec3(x - 16, y, z)),
-        //     loader.getChunkAtGlobalCoords(glm::vec3(x + 16, y, z)),
-        //     loader.getChunkAtGlobalCoords(glm::vec3(x, y, z + 16)),
-        //     loader.getChunkAtGlobalCoords(glm::vec3(x, y, z - 16)));
-        // generateMesh(chunkbounds, loader.loadedChunks[i].meshVertices, loader.loadedChunks[i].meshIndices);
-        // loader.loadedChunks[i].updateMesh();
-        // std::cout << i << '\n';
-    // }
-    // std::cout << typeid(loader.loadedChunks).name() << '\n';
+    for (int i = 0; i < loader.loadedChunks.size(); i++)
+    {
+        int x = loader.loadedChunks[i].chunkX * 16.0f;
+        int y = loader.loadedChunks[i].chunkY * 16.0f;
+        int z = loader.loadedChunks[i].chunkZ * 16.0f;
+        ChunkBoundary chunkbounds(loader.loadedChunks[i],
+            loader.getChunkAtGlobalCoords(glm::vec3(x, y + 16, z)),
+            loader.getChunkAtGlobalCoords(glm::vec3(x, y - 16, z)),
+            loader.getChunkAtGlobalCoords(glm::vec3(x - 16, y, z)),
+            loader.getChunkAtGlobalCoords(glm::vec3(x + 16, y, z)),
+            loader.getChunkAtGlobalCoords(glm::vec3(x, y, z + 16)),
+            loader.getChunkAtGlobalCoords(glm::vec3(x, y, z - 16)));
+        generateMesh(chunkbounds, loader.loadedChunks[i].meshVertices, loader.loadedChunks[i].meshIndices);
+        loader.loadedChunks[i].updateMesh();
+        std::cout << i << '\n';
+    }
+    std::cout << typeid(loader.loadedChunks).name() << '\n';
 }
 void ChunkMesher::updateMeshForChunkAt(glm::vec3 chunkCoords)
 {
-    // glm::vec3 chunkXYZ = chunkCoords + glm::vec3(loader.RENDER_DISTANCE);
-    // // Get the index of the desired chunk
-    // int i = chunkXYZ.x + (chunkXYZ.y * loader.totalWidth) + (chunkXYZ.z * loader.totalWidth * loader.totalWidth);
-    // // Get the global coordinates of the current chunk
-    // int x = loader.loadedChunks[i].chunkX * 16.0f;
-    // int y = loader.loadedChunks[i].chunkY * 16.0f;
-    // int z = loader.loadedChunks[i].chunkZ * 16.0f;
-    // // Add in all of the neighboring chunks for face-culling purposes
-    // ChunkBoundary chunkbounds(loader.loadedChunks[i],
-    //     loader.getChunkAtGlobalCoords(glm::vec3(x, y + 16, z)),
-    //     loader.getChunkAtGlobalCoords(glm::vec3(x, y - 16, z)),
-    //     loader.getChunkAtGlobalCoords(glm::vec3(x - 16, y, z)),
-    //     loader.getChunkAtGlobalCoords(glm::vec3(x + 16, y, z)),
-    //     loader.getChunkAtGlobalCoords(glm::vec3(x, y, z + 16)),
-    //     loader.getChunkAtGlobalCoords(glm::vec3(x, y, z - 16)));
-    // generateMesh(chunkbounds, loader.loadedChunks[i].meshVertices, loader.loadedChunks[i].meshIndices);
-    // loader.loadedChunks[i].updateMesh();
+    glm::vec3 chunkXYZ = chunkCoords + glm::vec3(loader.RENDER_DISTANCE);
+    // Get the index of the desired chunk
+    int i = chunkXYZ.x + (chunkXYZ.y * loader.totalWidth) + (chunkXYZ.z * loader.totalWidth * loader.totalWidth);
+    // Get the global coordinates of the current chunk
+    int x = loader.loadedChunks[i].chunkX * 16.0f;
+    int y = loader.loadedChunks[i].chunkY * 16.0f;
+    int z = loader.loadedChunks[i].chunkZ * 16.0f;
+    // Add in all of the neighboring chunks for face-culling purposes
+    ChunkBoundary chunkbounds(loader.loadedChunks[i],
+        loader.getChunkAtGlobalCoords(glm::vec3(x, y + 16, z)),
+        loader.getChunkAtGlobalCoords(glm::vec3(x, y - 16, z)),
+        loader.getChunkAtGlobalCoords(glm::vec3(x - 16, y, z)),
+        loader.getChunkAtGlobalCoords(glm::vec3(x + 16, y, z)),
+        loader.getChunkAtGlobalCoords(glm::vec3(x, y, z + 16)),
+        loader.getChunkAtGlobalCoords(glm::vec3(x, y, z - 16)));
+    generateMesh(chunkbounds, loader.loadedChunks[i].meshVertices, loader.loadedChunks[i].meshIndices);
+    loader.loadedChunks[i].updateMesh();
 }
 void ChunkMesher::generateMesh(ChunkBoundary chunk, std::vector<Vertex> &vertexOut, std::vector<GLuint> &indexOut)
 {

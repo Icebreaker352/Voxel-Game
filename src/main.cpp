@@ -71,7 +71,7 @@ int main()
         glClearColor(0.04f, 0.0425f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        triangle.Draw(shader, camera);
+        
 
         glfwSwapBuffers(window);
         // Take care of GLFW events
