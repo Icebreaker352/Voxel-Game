@@ -54,3 +54,12 @@ void Mesh::Draw(Shader &shader, Camera &camera)
     glDrawElements(GL_TRIANGLES, GLsizei(indices.size()), GL_UNSIGNED_INT, 0);
     VAO.Unbind();
 }
+void Mesh::Draw(Shader &shader, GLuint tex)
+{
+    shader.Activate();
+    glBindTextureUnit(0, tex);
+    glUniform1i(glGetUniformLocation(shader.ID, "screen"), 0);
+    VAO.Bind();
+    glDrawElements(GL_TRIANGLES, GLsizei(indices.size()), GL_UNSIGNED_INT, 0);
+    VAO.Unbind();
+}

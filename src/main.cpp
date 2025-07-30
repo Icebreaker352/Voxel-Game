@@ -1,7 +1,16 @@
 #include <iostream>
 #include <Mesh.h>
 #include <ChunkMesher.h>
+#include <compShader.h>
 using namespace std;
+
+std::vector<Vertex> planeVert = {
+    Vertex{glm::vec3(-1, -1, 0)},
+    Vertex{glm::vec3(1, -1, 0)},
+    Vertex{glm::vec3(-1, 1, 0)},
+    Vertex{glm::vec3(1, 1, 0)}};
+std::vector<GLuint>
+    planeInd = {0, 1, 2, 1, 2, 3};
 
 string res(string p)
 {
@@ -37,33 +46,47 @@ int main()
 
     // Create all the shaders
     Shader shader(res("shaders/default.vert").c_str(), res("shaders/terrain.frag").c_str());
+    Shader planeShader(res("shaders/plane.vert").c_str(), res("shaders/plane.frag").c_str());
+    CompShader perlin(res("shaders/perlin.glsl").c_str());
 
     // OpenGL by default doesn't depth sort by default for some reason
     glEnable(GL_DEPTH_TEST);
     // Enables Gamma correction
     glEnable(GL_FRAMEBUFFER_SRGB);
 
-    TextureArray tex({
-        res("textures/blocks/cobblestone.png").c_str(),
-        res("textures/blocks/diamond_block.png").c_str(),
-        res("textures/blocks/diamond_ore.png").c_str(),
-        res("textures/blocks/dirt.png").c_str(),
-        res("textures/blocks/gold_block.png").c_str(),
-        // res("textures/blocks/grass_block_side.png").c_str(),
-        res("textures/blocks/grass_block_top.png").c_str(),
-        res("textures/blocks/oak_leaves.png").c_str(),
-        // res("textures/blocks/oak_log_top.png").c_str(),
-        res("textures/blocks/oak_log.png").c_str(),
-        res("textures/blocks/oak_planks.png").c_str(),
-        res("textures/blocks/stone.png").c_str(),
-    }, GL_TEXTURE0);
+    // TextureArray tex({
+    //     res("textures/blocks/cobblestone.png").c_str(),
+    //     res("textures/blocks/diamond_block.png").c_str(),
+    //     res("textures/blocks/diamond_ore.png").c_str(),
+    //     res("textures/blocks/dirt.png").c_str(),
+    //     res("textures/blocks/gold_block.png").c_str(),
+    //     // res("textures/blocks/grass_block_side.png").c_str(),
+    //     res("textures/blocks/grass_block_top.png").c_str(),
+    //     res("textures/blocks/oak_leaves.png").c_str(),
+    //     // res("textures/blocks/oak_log_top.png").c_str(),
+    //     res("textures/blocks/oak_log.png").c_str(),
+    //     res("textures/blocks/oak_planks.png").c_str(),
+    //     res("textures/blocks/stone.png").c_str(),
+    // }, GL_TEXTURE0);
+    GLuint screenTex;
+    glCreateTextures(GL_TEXTURE_2D, 1, &screenTex);
+    glTextureStorage2D(screenTex, 1, GL_RGBA32F, mode->width, mode->height);
+    glTextureParameteri(screenTex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTextureParameteri(screenTex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureParameteri(screenTex, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(screenTex, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glBindImageTexture(0, screenTex, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+    Mesh plane(planeVert, planeInd);
+
+    perlin.Dispatch(ceil(mode->width / 16.0f), ceil(mode->height / 16.0f), 1);
+
     // Create the camera 2 units back
     Camera camera(mode->width, mode->height, glm::vec3(0.0f, 0.0f, 8.0f));
 
     shader.Activate();
-    tex.texUnit(shader, "terrainTex");
+    // tex.texUnit(shader, "terrainTex");
 
-    ChunkMesher mesher;
+    // ChunkMesher mesher;
 
     // Set buffer swap interval to 1. This effectively enables VSync
     glfwSwapInterval(1);
@@ -79,10 +102,12 @@ int main()
         glClearColor(0.04f, 0.0425f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        for (Chunk chunk : mesher.loader.loadedChunks)
-        {
-            chunk.chunkMesh.Draw(shader, camera);
-        }
+        // for (Chunk chunk : mesher.loader.loadedChunks)
+        // {
+        //     chunk.chunkMesh.Draw(shader, camera);
+        // }
+
+        plane.Draw(planeShader, screenTex);
 
         glfwSwapBuffers(window);
         // Take care of GLFW events
