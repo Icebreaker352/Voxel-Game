@@ -23,12 +23,8 @@ void Chunk::generateTerrain()
         if (coords.y < 5) chunkData[i] = STONE;
         else if (coords.y < 8) chunkData[i] = COBBLESTONE;
         else if (coords.y < altitude) chunkData[i] = DIRT;
-        else if (coords.y < altitude+1)
-        {
-            chunkData[i] = GOLD_BLOCK;
-        }   
+        else if (coords.y < altitude+1) chunkData[i] = GRASS_BLOCK;
         else chunkData[i] = AIR;
-        if (i == 240) chunkData[i] = AIR;
     }
 }
 BlockType Chunk::get(glm::vec3 coords)
