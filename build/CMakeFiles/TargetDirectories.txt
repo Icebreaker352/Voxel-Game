@@ -1,0 +1,17 @@
+C:/Users/prest/Documents/C++/Voxel Game/build/CMakeFiles/Voxels.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/CMakeFiles/INSTALL.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glad/CMakeFiles/glad.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glad/CMakeFiles/INSTALL.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glad/CMakeFiles/ALL_BUILD.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glfw-3.4/CMakeFiles/uninstall.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glfw-3.4/CMakeFiles/INSTALL.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glfw-3.4/CMakeFiles/ALL_BUILD.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glfw-3.4/src/CMakeFiles/glfw.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glfw-3.4/src/CMakeFiles/update_mappings.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glfw-3.4/src/CMakeFiles/INSTALL.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/glfw-3.4/docs/CMakeFiles/INSTALL.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/stb/CMakeFiles/stb_image.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/stb/CMakeFiles/INSTALL.dir
+C:/Users/prest/Documents/C++/Voxel Game/build/include/stb/CMakeFiles/ALL_BUILD.dir
