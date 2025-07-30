@@ -43,11 +43,27 @@ int main()
     // Enables Gamma correction
     glEnable(GL_FRAMEBUFFER_SRGB);
 
+    TextureArray tex({
+        res("textures/blocks/cobblestone.png").c_str(),
+        res("textures/blocks/diamond_block.png").c_str(),
+        res("textures/blocks/diamond_ore.png").c_str(),
+        res("textures/blocks/dirt.png").c_str(),
+        res("textures/blocks/gold_block.png").c_str(),
+        // res("textures/blocks/grass_block_side.png").c_str(),
+        res("textures/blocks/grass_block_top.png").c_str(),
+        res("textures/blocks/oak_leaves.png").c_str(),
+        // res("textures/blocks/oak_log_top.png").c_str(),
+        res("textures/blocks/oak_log.png").c_str(),
+        res("textures/blocks/oak_planks.png").c_str(),
+        res("textures/blocks/stone.png").c_str(),
+    }, GL_TEXTURE0);
     // Create the camera 2 units back
     Camera camera(mode->width, mode->height, glm::vec3(0.0f, 0.0f, 8.0f));
 
+    shader.Activate();
+    tex.texUnit(shader, "terrainTex");
+
     ChunkMesher mesher;
-    std::cout << mesher.loader.loadedChunks[0].meshVertices.size() << '\n';
 
     // Set buffer swap interval to 1. This effectively enables VSync
     glfwSwapInterval(1);
