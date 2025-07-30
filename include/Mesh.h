@@ -17,6 +17,7 @@ public:
     VAO VAO;
 
     Mesh(std::vector<Vertex> &vertices, std::vector<GLuint> &indices);
+    Mesh();
 
     void Draw(Shader &shader, Camera &camera);
 };
