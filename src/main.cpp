@@ -54,37 +54,36 @@ int main()
     // Enables Gamma correction
     glEnable(GL_FRAMEBUFFER_SRGB);
 
-    // TextureArray tex({
-    //     res("textures/blocks/cobblestone.png").c_str(),
-    //     res("textures/blocks/diamond_block.png").c_str(),
-    //     res("textures/blocks/diamond_ore.png").c_str(),
-    //     res("textures/blocks/dirt.png").c_str(),
-    //     res("textures/blocks/gold_block.png").c_str(),
-    //     // res("textures/blocks/grass_block_side.png").c_str(),
-    //     res("textures/blocks/grass_block_top.png").c_str(),
-    //     res("textures/blocks/oak_leaves.png").c_str(),
-    //     // res("textures/blocks/oak_log_top.png").c_str(),
-    //     res("textures/blocks/oak_log.png").c_str(),
-    //     res("textures/blocks/oak_planks.png").c_str(),
-    //     res("textures/blocks/stone.png").c_str(),
-    // }, GL_TEXTURE0);
+    TextureArray tex({
+        res("textures/blocks/cobblestone.png").c_str(),
+        res("textures/blocks/diamond_block.png").c_str(),
+        res("textures/blocks/diamond_ore.png").c_str(),
+        res("textures/blocks/dirt.png").c_str(),
+        res("textures/blocks/gold_block.png").c_str(),
+        // res("textures/blocks/grass_block_side.png").c_str(),
+        res("textures/blocks/grass_block_top.png").c_str(),
+        res("textures/blocks/oak_leaves.png").c_str(),
+        // res("textures/blocks/oak_log_top.png").c_str(),
+        res("textures/blocks/oak_log.png").c_str(),
+        res("textures/blocks/oak_planks.png").c_str(),
+        res("textures/blocks/stone.png").c_str(),
+    }, GL_TEXTURE0);
     GLuint screenTex;
     glCreateTextures(GL_TEXTURE_2D, 1, &screenTex);
-    glTextureStorage2D(screenTex, 1, GL_RGBA32F, mode->width, mode->height);
-    glTextureParameteri(screenTex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTextureParameteri(screenTex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTextureParameteri(screenTex, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(screenTex, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glBindImageTexture(0, screenTex, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+    glTextureStorage2D(screenTex, 1, GL_RGBA32F, mode->width/4, mode->height/4);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glBindImageTexture(1, screenTex, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
     Mesh plane(planeVert, planeInd);
-
-    perlin.Dispatch(ceil(mode->width / 16.0f), ceil(mode->height / 16.0f), 1);
+    perlin.Activate();
+    glUniform1f(glGetUniformLocation(perlin.ID, "seed"), 1.0f);
+    perlin.Dispatch(ceil(mode->width / 64.0f), ceil(mode->height / 64.0f), 1);
 
     // Create the camera 2 units back
     Camera camera(mode->width, mode->height, glm::vec3(0.0f, 0.0f, 8.0f));
 
     shader.Activate();
-    // tex.texUnit(shader, "terrainTex");
+    tex.texUnit(shader, "terrainTex");
 
     // ChunkMesher mesher;
 
