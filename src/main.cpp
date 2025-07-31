@@ -31,7 +31,7 @@ int main()
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-    GLFWwindow *window = glfwCreateWindow(mode->width, mode->height, "Minecraft Knockoff", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(mode->width, mode->height, "Minecraft Knockoff", monitor, NULL);
     // Throw an error if the window does not initialize
     if (window == NULL)
     {
@@ -70,14 +70,9 @@ int main()
     }, GL_TEXTURE0);
     GLuint screenTex;
     glCreateTextures(GL_TEXTURE_2D, 1, &screenTex);
-    glTextureStorage2D(screenTex, 1, GL_RGBA32F, mode->width/4, mode->height/4);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureStorage2D(screenTex, 1, GL_RGBA32F, mode->width, mode->height);
     glBindImageTexture(1, screenTex, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
     Mesh plane(planeVert, planeInd);
-    perlin.Activate();
-    glUniform1f(glGetUniformLocation(perlin.ID, "seed"), 1.0f);
-    perlin.Dispatch(ceil(mode->width / 64.0f), ceil(mode->height / 64.0f), 1);
 
     // Create the camera 2 units back
     Camera camera(mode->width, mode->height, glm::vec3(0.0f, 0.0f, 8.0f));
@@ -105,6 +100,10 @@ int main()
         // {
         //     chunk.chunkMesh.Draw(shader, camera);
         // }
+
+        perlin.Activate();
+        glUniform1f(glGetUniformLocation(perlin.ID, "seed"), 1.0f);
+        perlin.Dispatch((GLuint)ceil(mode->width / 16.0f), (GLuint)ceil(mode->height / 16.0f), 1);
 
         plane.Draw(planeShader, screenTex);
 
